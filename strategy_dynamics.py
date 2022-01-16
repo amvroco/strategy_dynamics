@@ -465,3 +465,47 @@ def nx2shiftindices(indices, i):
         
     
     return tuple(noroll_idx[x,:])
+
+#%% Classify emerging strategy dynamics
+def nx2quadrant(Fi, Gi, strictness = 3):
+    
+    dynamic = 'XX'
+    
+    if strictness == 0:
+        if np.all(Fi <= 0) and np.all(Gi <= 0):
+            dynamic = 'HA'
+        elif np.all(Fi >= 0) and np.all(Gi >= 0):
+            dynamic = 'DE'
+        elif np.all(Fi <= 0) and np.all(Gi >= 0):
+            dynamic = 'CX'
+        elif np.all(Fi >= 0) and np.all(Gi <= 0):
+            dynamic = 'BI'
+    elif strictness == 1:
+        if np.all(Fi <= 0) and np.all(Gi < 0):
+            dynamic = 'HA'
+        elif np.all(Fi >= 0) and np.all(Gi > 0):
+            dynamic = 'DE'
+        elif np.all(Fi < 0) and np.all(Gi >= 0):
+            dynamic = 'CX'
+        elif np.all(Fi > 0) and np.all(Gi <= 0):
+            dynamic = 'BI'
+    elif strictness == 2:
+        if np.all(Fi < 0) and np.all(Gi < 0):
+            dynamic = 'HA'
+        elif np.all(Fi > 0) and np.all(Gi > 0):
+            dynamic = 'DE'
+        elif np.all(Fi <= 0) and np.all(Gi >= 0):
+            dynamic = 'CX'
+        elif np.all(Fi >= 0) and np.all(Gi <= 0):
+            dynamic = 'BI'
+    else:
+        if np.all(Fi < 0) and np.all(Gi < 0):
+            dynamic = 'HA'
+        elif np.all(Fi > 0) and np.all(Gi > 0):
+            dynamic = 'DE'
+        elif np.all(Fi < 0) and np.all(Gi > 0):
+            dynamic = 'CX'
+        elif np.all(Fi > 0) and np.all(Gi < 0):
+            dynamic = 'BI'
+    
+    return dynamic
